@@ -1,11 +1,11 @@
 #pragma once
 
 #include "diagnostic.h"
+#include "ir.h"
 #include <QString>
 #include <QVector>
 
 // Лексические категории общего токенизатора для VHDL, Verilog и SystemVerilog.
-// Языковые различия учитываются на уровне Parser.
 enum class TokenType
 {
     Identifier,
@@ -28,6 +28,7 @@ class Lexer
 {
 public:
     QVector<Token> tokenize(const QString& source,
+                            HDL language,
                             QVector<Diagnostic>& diagnostics) const;
 
 private:
@@ -35,6 +36,7 @@ private:
     bool isIdentifierPart(QChar c) const;
     bool isVhdlKeyword(const QString& s) const;
     bool isVerilogKeyword(const QString& s) const;
+    bool isSystemVerilogKeyword(const QString& s) const;
 
     // SystemVerilog: '0, '1, 'x, 'z — специальные unbased unsized literals.
     bool isSystemVerilogUnbasedLiteral(const QString& source, int index) const;

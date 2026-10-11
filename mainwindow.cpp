@@ -224,17 +224,27 @@ void MainWindow::convertCode()
 
 void MainWindow::swapLanguages()
 {
-    const int source = sourceCombo->currentIndex();
-    const int target = targetCombo->currentIndex();
+    // Обмен языков допустим только если в выходном поле есть текст
+    // (иначе исходный код "потеряется").
+    const QString output = outputEdit->toPlainText();
+    if (output.trimmed().isEmpty()) {
+        // Просто меняем местами выбор языков.
+        const int src = sourceCombo->currentIndex();
+        sourceCombo->setCurrentIndex(targetCombo->currentIndex());
+        targetCombo->setCurrentIndex(src);
+        statusLabel->setText("Языки поменяны местами (выход пуст, исходный код сохранён).");
+        return;
+    }
 
-    sourceCombo->setCurrentIndex(target);
-    targetCombo->setCurrentIndex(source);
+    const int src = sourceCombo->currentIndex();
+    sourceCombo->setCurrentIndex(targetCombo->currentIndex());
+    targetCombo->setCurrentIndex(src);
 
     const QString input = inputEdit->toPlainText();
-    const QString output = outputEdit->toPlainText();
-
     inputEdit->setPlainText(output);
     outputEdit->setPlainText(input);
+    diagnosticsEdit->clear();
+    statusLabel->setText("Языки и тексты поменяны местами.");
 }
 
 void MainWindow::clearAll()
@@ -269,3 +279,4 @@ void MainWindow::loadExample()
     diagnosticsEdit->clear();
     statusLabel->setText("Загружен пример VHDL.");
 }
+

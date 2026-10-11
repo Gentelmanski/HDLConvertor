@@ -4,14 +4,14 @@
 #include "parser.h"
 
 #include <QComboBox>
+#include <QLabel>
 #include <QMainWindow>
 #include <QPlainTextEdit>
 #include <QPushButton>
-#include <QLabel>
 
 class MainWindow : public QMainWindow
 {
-
+    Q_OBJECT
 public:
     explicit MainWindow(QWidget* parent = nullptr);
 
@@ -29,15 +29,12 @@ private:
     void setupUi();
     void addDiagnostic(const Diagnostic& d);
     void showDiagnostics(const QVector<Diagnostic>& diagnostics);
-    void setLanguageCombo(QComboBox* combo, HDL language);
 
     QComboBox* sourceCombo = nullptr;
     QComboBox* targetCombo = nullptr;
-
     QPlainTextEdit* inputEdit = nullptr;
     QPlainTextEdit* outputEdit = nullptr;
     QPlainTextEdit* diagnosticsEdit = nullptr;
-
     QLabel* statusLabel = nullptr;
 
     QPushButton* checkButton = nullptr;

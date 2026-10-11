@@ -1,27 +1,17 @@
 #pragma once
-
 #include "diagnostic.h"
+#include "expr.h"
 #include "ir.h"
 #include "lexer.h"
 
-class Parser
-{
+class Parser {
 public:
-    bool parse(const QString& source,
-               HDL sourceLanguage,
-               IRModule& module,
-               QVector<Diagnostic>& diagnostics) const;
+    bool parse(const QString& source, HDL sourceLanguage,
+               IRModule& module, QVector<Diagnostic>& diagnostics) const;
 
 private:
-    bool parseVhdl(const QVector<Token>& tokens,
-                   IRModule& module,
-                   QVector<Diagnostic>& diagnostics) const;
-
-    bool parseVerilog(const QVector<Token>& tokens,
-                      IRModule& module,
-                      QVector<Diagnostic>& diagnostics) const;
-
-    QString joinTokens(const QVector<Token>& tokens, int from, int to) const;
-    int findToken(const QVector<Token>& tokens, const QString& value,
-                  int start) const;
+    bool parseVhdl(const QVector<Token>& t, IRModule& m, QVector<Diagnostic>& d) const;
+    bool parseVerilog(const QVector<Token>& t, IRModule& m, QVector<Diagnostic>& d) const;
+    int  findToken(const QVector<Token>& t, const QString& v, int from, HDL lang) const;
+    int  findMatchingParen(const QVector<Token>& t, int openIdx) const;
 };
